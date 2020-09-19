@@ -68,6 +68,26 @@ const clickHandler = () => {
             showAdditionalDogInfo(e.target)
         } else if(e.target.matches('.good-or-bad-dog')){
             updateGoodOrBadStatus(e.target)
+        } else if(e.target.matches('#good-dog-filter')){
+            const button = e.target
+            if(button.textContent === "Filter good dogs: OFF"){
+                button.textContent = "Filter good dogs: ON"
+                const dogSpans = document.querySelectorAll('.dog-span')
+                for(const dog of dogSpans){
+                    const dogId = dog.dataset.dogId
+                    const dogDiv = document.querySelector('#dog-info')
+                    const matchingDogDiv = dogDiv.querySelector(`[data-dog-id="${dogId}"]`)
+                    if (matchingDogDiv.dataset.dogStatus === "false"){
+                        dog.style.display = "none"
+                    }
+                }
+            } else if(button.textContent === "Filter good dogs: ON"){
+                const dogSpans = document.querySelectorAll('.dog-span')
+                for(const dog of dogSpans){
+                    dog.style.display = "inline"
+                }
+                button.textContent = "Filter good dogs: OFF"
+            }
         }
     })
 }
@@ -111,7 +131,9 @@ const goodOrBadFromButton = el => {
     }
 }
 
+
 // unhide additional dog info
+
 
 const showAdditionalDogInfo = el => {
     const dogId = el.dataset.dogId
