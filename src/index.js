@@ -56,10 +56,10 @@ const createDogDiv = dog => {
 const goodOrBadDog = (dog, dogEl) => {
     if(dog.isGoodDog){
         dogEl.dataset.dogStatus = 'true'
-        return "Good Dog!"
+        return "Bad Dog!"
     } else if (dog.isGoodDog === false){
         dogEl.dataset.dogStatus = 'false'
-        return "Bad Dog!"
+        return "Good Dog!"
     }
 }
 
@@ -119,10 +119,10 @@ const updateGoodOrBadStatus = el => {
     .then(response => response.json())
     .then(dog => {
         if(dog.isGoodDog === true){
-            el.textContent = "Good Dog!"
+            el.textContent = "Bad Dog!"
             el.parentElement.dataset.dogStatus = "true"
         } else if (dog.isGoodDog === false){
-            el.textContent = "Bad Dog!"
+            el.textContent = "Good Dog!"
             el.parentElement.dataset.dogStatus = "false"
         }
     })
@@ -132,9 +132,9 @@ const updateGoodOrBadStatus = el => {
 // get whether good or bad from dog button text content
 
 const goodOrBadFromButton = el => {
-    if (el.textContent === "Bad Dog!"){
+    if (el.textContent === "Good Dog!"){
         return true
-    } else if (el.textContent === "Good Dog!"){
+    } else if (el.textContent === "Bad Dog!"){
         return false
     }
 }
