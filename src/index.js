@@ -69,27 +69,32 @@ const clickHandler = () => {
         } else if(e.target.matches('.good-or-bad-dog')){
             updateGoodOrBadStatus(e.target)
         } else if(e.target.matches('#good-dog-filter')){
-            const button = e.target
-            if(button.textContent === "Filter good dogs: OFF"){
-                button.textContent = "Filter good dogs: ON"
-                const dogSpans = document.querySelectorAll('.dog-span')
-                for(const dog of dogSpans){
-                    const dogId = dog.dataset.dogId
-                    const dogDiv = document.querySelector('#dog-info')
-                    const matchingDogDiv = dogDiv.querySelector(`[data-dog-id="${dogId}"]`)
-                    if (matchingDogDiv.dataset.dogStatus === "false"){
-                        dog.style.display = "none"
-                    }
-                }
-            } else if(button.textContent === "Filter good dogs: ON"){
-                const dogSpans = document.querySelectorAll('.dog-span')
-                for(const dog of dogSpans){
-                    dog.style.display = "inline"
-                }
-                button.textContent = "Filter good dogs: OFF"
-            }
+            filterDogs(e.target)
         }
     })
+}
+
+// filter dogs based on DB isGoodDog
+
+const filterDogs = el => {
+    if(el.textContent === "Filter good dogs: OFF"){
+        el.textContent = "Filter good dogs: ON"
+        const dogSpans = document.querySelectorAll('.dog-span')
+        for(const dog of dogSpans){
+            const dogId = dog.dataset.dogId
+            const dogDiv = document.querySelector('#dog-info')
+            const matchingDogDiv = dogDiv.querySelector(`[data-dog-id="${dogId}"]`)
+            if (matchingDogDiv.dataset.dogStatus === "false"){
+                dog.style.display = "none"
+            }
+        }
+    } else if(el.textContent === "Filter good dogs: ON"){
+        const dogSpans = document.querySelectorAll('.dog-span')
+        for(const dog of dogSpans){
+            dog.style.display = "inline"
+        }
+        el.textContent = "Filter good dogs: OFF"
+    }
 }
 
 // update DB then DOM with new status of dog good or bad
@@ -119,8 +124,8 @@ const updateGoodOrBadStatus = el => {
         }
     })
     .catch(error => alert(error))
-
 }
+
 // get whether good or bad from dog button text content
 
 const goodOrBadFromButton = el => {
@@ -131,9 +136,7 @@ const goodOrBadFromButton = el => {
     }
 }
 
-
 // unhide additional dog info
-
 
 const showAdditionalDogInfo = el => {
     const dogId = el.dataset.dogId
@@ -142,8 +145,6 @@ const showAdditionalDogInfo = el => {
     matchingDogDiv.style.display = 'inline'
     el.dataset.hiddenOrShown = "shown"
 }
-
-
 
 clickHandler()
 getAndShowDogsFromDb()
