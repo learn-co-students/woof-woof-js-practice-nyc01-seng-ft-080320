@@ -42,6 +42,7 @@ const createDogDiv = dog => {
     const newDogDiv = document.createElement('div')
     newDogDiv.dataset.dogId = dog.id
     newDogDiv.style.display = 'none'
+    newDogDiv.classList.add('new-dog-div')
     newDogDiv.innerHTML = `
         <img src="${dog.image}" alt="${dog.name}" />
         <h2>${dog.name}</h2>
@@ -65,6 +66,8 @@ const goodOrBadDog = (dog, dogEl) => {
 const clickHandler = () => {
     document.addEventListener('click', e => {
         if(e.target.matches('.dog-span')){
+            //div where 
+            
             showAdditionalDogInfo(e.target)
         } else if(e.target.matches('.good-or-bad-dog')){
             updateGoodOrBadStatus(e.target)
@@ -141,6 +144,10 @@ const goodOrBadFromButton = el => {
 const showAdditionalDogInfo = el => {
     const dogId = el.dataset.dogId
     const dogDiv = document.querySelector('#dog-info')
+    const allDogDivs = document.querySelectorAll('.new-dog-div')
+    for(const dog of allDogDivs){
+        dog.style.display = "none"
+    }
     const matchingDogDiv = dogDiv.querySelector(`[data-dog-id="${dogId}"]`)
     matchingDogDiv.style.display = 'inline'
     el.dataset.hiddenOrShown = "shown"
