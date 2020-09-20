@@ -102,8 +102,18 @@ document.addEventListener('DOMContentLoaded', e => {
                 
                 if (e.target.textContent === "Good Dog!") {
                     e.target.textContent = "Bad Dog!"
+                    // const dogObj = dogList[parseInt(e.target.parentNode.id) - 1];
+                    const dogId = e.target.parentNode.dataset.dogId;
+                    const dogOnDogList = dogList[parseInt(dogId) - 1];
+                    // dogOnDogList.isGoodDog = "false"
+                    // console.log(dogOnDogList)
+
                 } else if (e.target.textContent === "Bad Dog!") {
                     e.target.textContent = "Good Dog!"
+                    const dogId = e.target.parentNode.dataset.dogId
+                    const dogOnDogList = dogList[parseInt(dogId) - 1];
+                    // dogOnDogList.isGoodDog = "true"
+                    // console.log(dogOnDogList)
                 }
                 postGoodBoy(e.target)
             } else if (e.target.matches('#good-dog-filter')) {
