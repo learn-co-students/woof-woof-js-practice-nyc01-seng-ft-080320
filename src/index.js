@@ -32,10 +32,11 @@ document.addEventListener('DOMContentLoaded', e => {
     const createDogInfoDiv = dog => {
         const div = document.createElement('div');
         const isGood = goodBadDog(dog);
+        div.dataset.dogId = dog.id;
         div.innerHTML = `
         <img src=${dog.image}>
         <h2>${dog.name}</h2>
-        <button>${isGood}</button>
+        <button id="good-dog-button">${isGood}</button>
         `
 
         const dogInfo = document.querySelector("#dog-info");
@@ -52,15 +53,14 @@ document.addEventListener('DOMContentLoaded', e => {
 
     const removeDog = () => {
         const dogInfo = document.querySelector("#dog-info");
-        const childNode = dogInfo.childNode;
-
-        if (childNode) {
-            childNode.remove()
+        const innerDiv = dogInfo.querySelector('div')
+        if (innerDiv) {
+            innerDiv.remove();
+        } else {
+            innerDiv
         }
-
     }
 
-    removeDog();
 
     const clickHandler = () => {
         document.addEventListener("click", e => {
@@ -69,10 +69,48 @@ document.addEventListener('DOMContentLoaded', e => {
                 removeDog();
                 const dogObj = dogList[parseInt(e.target.id) - 1];
                 createDogInfoDiv(dogObj)
+            } else if (e.target.matches("#good-dog-button")) {
+                if (e.target.textContent === "Good Dog!") {
+                    e.target.textContent = "Bad Dog!"
+                } else if (e.target.textContent === "Bad Dog!") {
+                    e.target.textContent = "Good Dog!"
+                }
+                postGoodBoy(e.target)
             }
 
         })
     }
+
+        const isGoodBoyBoolean = (dog) => {
+            if (dog === "Good Dog!") {
+                return true
+            } else if (dog === "Bad Dog!") {
+               return false
+            }
+        }
+
+
+        const postGoodBoy = goodDog => {
+            const parentDiv = goodDog.parentElement;
+            const id = parentDiv.dataset.dogId;
+            const content = goodDog.textContent;
+            const boolean = isGoodBoyBoolean(content)
+
+            const options = {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json"
+                },
+                body: JSON.stringify({ isGoodDog: boolean })
+            };
+
+
+            fetch(pupUrl + "/" + id, options)
+            .then(response => response.json())
+            .then(dog => console.log(dog))
+
+            }
 
     // createDogInfoDiv({
     //     "id": 1,
