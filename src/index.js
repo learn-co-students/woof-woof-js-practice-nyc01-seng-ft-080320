@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const contentUrl = 'http://localhost:3000/pups/'
-    
+    let status = 'inactive'
     const fetchData = () => {
         fetch(contentUrl)
         .then(res => res.json())
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(contentUrl + id, options)
         .then(res => res.json())
         .then(dog => {
-            console.log(dog)
+
         })
     };
 
@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     };
 
+   
     const renderDog = dogObj => {
         const dogBar = document.querySelector('#dog-bar')
         const dogSpan = document.createElement('SPAN')
@@ -41,11 +42,19 @@ document.addEventListener("DOMContentLoaded", () => {
         dogBar.appendChild(dogSpan)
     };
    
+
+    const dogFilter = display => {
+        const badDogs = document.querySelectorAll('[isGoodDog="false"]')
+                badDogs.forEach(dog => {
+                dog.className = display
+                });
+
+    }
+
     document.addEventListener('click', e => {
         if (e.target.matches('SPAN')) {
             const dogSpan = e.target
             const dogId = dogSpan.getAttribute('id')
-            console.log(dogId)
             const dogDiv = document.querySelector('#dog-info')
             if (dogSpan.getAttribute('isGoodDog') === 'true') {
                 dogDiv.innerHTML = `
@@ -63,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         if (e.target.matches('.dog-btn')) {
-            console.log(e.target)
+            
             const dogStatusBtn = e.target
             const dogId = dogStatusBtn.id
             
@@ -77,8 +86,26 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
         };
+
+    
+         if (e.target.matches("#good-dog-filter")) {
+            const filterBtn = e.target
+            if (status == 'inactive') {
+               dogFilter('hide') 
+               filterBtn.innerText = "Filter Good Dogs: ON"
+               status = 'active'
+            } else if (status == 'active') {
+                dogFilter('show') 
+               filterBtn.innerText = "Filter Good Dogs: OFF"
+               status = 'inactive'
+            }
+
+            
+        
+        };
     });
 
     fetchData()
 
 });
+
