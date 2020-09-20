@@ -61,6 +61,35 @@ document.addEventListener('DOMContentLoaded', e => {
         }
     }
 
+    const removeDogsInBar = () => {
+        const dogBar = document.querySelector("#dog-bar");
+        dogBar.innerHTML = "";
+        // const innerSpans = dogBar.children;
+        // for(const span of innerSpans) {
+        //     span.remove();
+        // }
+    }
+
+
+    const fetchGoodDogs = url => {
+        fetch(url)
+        .then(response => response.json())
+        .then(dogData => {
+            //checkIsGoodDog(dogData);
+            for(const dog of dogData ) {
+                if (dog.isGoodDog === true) {
+                    createDogSpan(dog)
+                }
+            }
+        });
+    }
+
+
+    // const checkIsGoodDog = (dogArray) => {
+
+        
+    //     console.log(goodDogs)
+    // }
 
     const clickHandler = () => {
         document.addEventListener("click", e => {
@@ -70,12 +99,26 @@ document.addEventListener('DOMContentLoaded', e => {
                 const dogObj = dogList[parseInt(e.target.id) - 1];
                 createDogInfoDiv(dogObj)
             } else if (e.target.matches("#good-dog-button")) {
+                
                 if (e.target.textContent === "Good Dog!") {
                     e.target.textContent = "Bad Dog!"
                 } else if (e.target.textContent === "Bad Dog!") {
                     e.target.textContent = "Good Dog!"
                 }
                 postGoodBoy(e.target)
+            } else if (e.target.matches('#good-dog-filter')) {
+                removeDog();
+                if (e.target.textContent === "Filter good dogs: OFF") {
+                    e.target.textContent = "Filter good dogs: ON"
+                    removeDogsInBar();
+                    fetchGoodDogs(pupUrl);
+
+                } else if (e.target.textContent === "Filter good dogs: ON") {
+                    e.target.textContent = "Filter good dogs: OFF"
+                    removeDogsInBar();
+                    fetchDogs(pupUrl);
+                }
+                
             }
 
         })
@@ -109,8 +152,9 @@ document.addEventListener('DOMContentLoaded', e => {
             fetch(pupUrl + "/" + id, options)
             .then(response => response.json())
             .then(dog => console.log(dog))
-
-            }
+        }
+            
+            
 
     // createDogInfoDiv({
     //     "id": 1,
