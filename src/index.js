@@ -43,10 +43,18 @@ const createDogDiv = dog => {
     newDogDiv.dataset.dogId = dog.id
     newDogDiv.style.display = 'none'
     newDogDiv.classList.add('new-dog-div')
+    if(dog.likes){
+        dog.likes = dog.likes
+    } else if (dog.likes === undefined){
+        dog.likes = 0
+    }
     newDogDiv.innerHTML = `
         <img src="${dog.image}" alt="${dog.name}" />
         <h2>${dog.name}</h2>
+        <h4 class="likes-container">${dog.likes} Likes <3</h4>
         <button class="good-or-bad-dog" type="button">${goodOrBadDog(dog, newDogDiv)}</button>
+        <button class="delete-dog" type="button">Delete Dog</button>
+        <button class="likes" type="button">Like!</button>
     `
     dogDiv.append(newDogDiv)
 }
@@ -66,17 +74,103 @@ const goodOrBadDog = (dog, dogEl) => {
 const clickHandler = () => {
     document.addEventListener('click', e => {
         if(e.target.matches('.dog-span')){
-            //div where 
-            
             showAdditionalDogInfo(e.target)
         } else if(e.target.matches('.good-or-bad-dog')){
             updateGoodOrBadStatus(e.target)
         } else if(e.target.matches('#good-dog-filter')){
             filterDogs(e.target)
+        } else if(e.target.matches('#create-new-dog')){
+            showForm(e.target)
+        } else if(e.target.matches('#hide-dog-form')){
+            hideForm(e.target)
+        } else if(e.target.matches('.likes')){
+            updateLikes(e.target)
+        } else if(e.target.matches('.delete-dog')){
+            const dogId = e.target.parentElement.dataset.dogId
+            const options = {
+                method: "DELETE"
+            }
+            fetch(Url + dogId, options)
+            .then(response => response.json())
+            .then(() => {
+                const dogBarEl = document.querySelector(`[data-dog-id="${dogId}"]`)
+                dogBarEl.remove()
+                e.target.parentElement.remove()
+            })
+            //delete element from page
         }
     })
 }
 
+const updateLikes = el => {
+    const dogId = el.parentElement.dataset.dogId
+    const likeText= el.parentElement.querySelector('.likes-container')
+    const likes = parseInt(likeText.textContent)
+    
+
+    const dogObj = {
+        likes: likes + 1
+    }
+    const options = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accepts": "application/json"
+        },
+        body: JSON.stringify(dogObj)
+    }
+    fetch(Url + dogId, options)
+    .then(response => response.json())
+    .then(dog => {
+        const likeContainer = el.parentElement.querySelector('.likes-container') 
+        likeContainer.innerText = `${dog.likes} Likes 	
+        <3`
+    })
+}
+
+const showForm = el => {
+    const formDiv = el.parentElement
+    const form = formDiv.querySelector('form')
+    form.style.display = 'inline'
+    el.textContent = "Hide Form"
+    el.id = "hide-dog-form"
+}
+
+const hideForm = el => {
+    const formDiv = el.parentElement
+    const form = formDiv.querySelector('form')
+    form.style.display = 'none'
+    el.textContent = "Show New Dog Form"
+    el.id = "create-new-dog"
+}
+
+const submitListener = () => {
+    document.addEventListener('submit', e => {
+        if(e.target.matches('#dog-form')){
+            const form = e.target
+            e.preventDefault()
+            console.log(form.name.value)
+            const dogObj = {
+               name: form.name.value,
+               isGoodDog: true,
+               image: form.image.value 
+            }
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accepts": "application/json"
+                },
+                body: JSON.stringify(dogObj)
+            }
+            fetch(Url, options)
+            .then(response => response.json())
+            .then(dog => {
+                renderDog(dog)
+            })
+        }
+    })
+}
 // filter dogs based on DB isGoodDog
 
 const filterDogs = el => {
@@ -152,7 +246,7 @@ const showAdditionalDogInfo = el => {
     matchingDogDiv.style.display = 'inline'
     el.dataset.hiddenOrShown = "shown"
 }
-
+submitListener()
 clickHandler()
 getAndShowDogsFromDb()
 

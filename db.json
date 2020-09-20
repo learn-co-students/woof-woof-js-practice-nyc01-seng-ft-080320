@@ -4,48 +4,40 @@
       "id": 1,
       "name": "Mr. Bonkers",
       "isGoodDog": false,
-      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_1.jpg"
+      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_1.jpg",
+      "likes": 24
     },
     {
       "id": 2,
       "name": "Nugget",
       "isGoodDog": false,
-      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_2.jpg"
+      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_2.jpg",
+      "likes": 2
     },
     {
       "id": 3,
       "name": "Skittles",
-      "isGoodDog": true,
-      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_3.jpg"
-    },
-    {
-      "id": 4,
-      "name": "Buttercup",
       "isGoodDog": false,
-      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_4.jpg"
-    },
-    {
-      "id": 5,
-      "name": "Lucipher",
-      "isGoodDog": true,
-      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_5.jpg"
+      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_3.jpg",
+      "likes": 2
     },
     {
       "id": 6,
       "name": "Snooper Pooper",
-      "isGoodDog": false,
+      "isGoodDog": true,
       "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_6.jpg"
     },
     {
       "id": 7,
       "name": "Puddles",
       "isGoodDog": false,
-      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_7.jpg"
+      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_7.jpg",
+      "likes": 1
     },
     {
       "id": 8,
       "name": "Mittens",
-      "isGoodDog": false,
+      "isGoodDog": true,
       "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_1.jpg"
     },
     {
@@ -55,10 +47,11 @@
       "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_2.jpg"
     },
     {
+      "name": "Judy",
+      "isGoodDog": false,
+      "image": "https://vignette.wikia.nocookie.net/p__/images/8/88/Jessie_Toy_Story_3.png/revision/latest?cb=20161023024601&path-prefix=protagonist",
       "id": 10,
-      "name": "Fido",
-      "isGoodDog": true,
-      "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_5.jpg"
+      "likes": 8
     }
   ]
 }
