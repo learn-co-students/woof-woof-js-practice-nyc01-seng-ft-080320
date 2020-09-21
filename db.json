@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Mr. Bonkers",
-      "isGoodDog": false,
+      "isGoodDog": true,
       "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_1.jpg",
       "likes": 24
     },
@@ -30,14 +30,14 @@
     {
       "id": 7,
       "name": "Puddles",
-      "isGoodDog": false,
+      "isGoodDog": true,
       "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_7.jpg",
       "likes": 1
     },
     {
       "id": 8,
       "name": "Mittens",
-      "isGoodDog": true,
+      "isGoodDog": false,
       "image": "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_1.jpg"
     },
     {

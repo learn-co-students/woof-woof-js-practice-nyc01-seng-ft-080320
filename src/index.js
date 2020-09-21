@@ -219,6 +219,22 @@ const updateGoodOrBadStatus = el => {
             el.textContent = "Good Dog!"
             el.parentElement.dataset.dogStatus = "false"
         }
+        //if the filter button text content = good dog on
+        const likeButton = document.querySelector('#good-dog-filter')
+        if(likeButton.textContent === "Filter good dogs: ON"){
+            const dogSpans = document.querySelectorAll('.dog-span')
+            for(const dog of dogSpans){
+                const dogId = dog.dataset.dogId
+                const dogDiv = document.querySelector('#dog-info')
+                const matchingDogDiv = dogDiv.querySelector(`[data-dog-id="${dogId}"]`)
+                if (matchingDogDiv.dataset.dogStatus === "false"){
+                    dog.style.display = "none"
+                } else if(matchingDogDiv.dataset.dogStatus === "true"){
+                    dog.style.display = "inline"
+                }
+            }
+        }
+    
     })
     .catch(error => alert(error))
 }
