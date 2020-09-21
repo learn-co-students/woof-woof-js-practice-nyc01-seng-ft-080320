@@ -2,7 +2,7 @@ const PUPS_BASE_URL = "http://localhost:3000/pups"
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    let filter = 'all'
+    let filter = false
 
     const getDogs = () => {
         fetch(PUPS_BASE_URL)
@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderPups = pups => {
         const dogBar = document.querySelector("#dog-bar")
         dogBar.innerHTML = ""
-        if (filter === 'all') {
-            pups.map(renderPup)
-        } else {
+        if (filter) {
             pups.filter(pup => pup.isGoodDog === true).map(renderPup)
+        } else {
+            pups.map(renderPup)
         }
     }
 
@@ -43,12 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const changeFilter = () => {
-        filter = (filter === 'all') ? 'good' : 'all'
+        filter = !filter
         const button = document.querySelector("#good-dog-filter")
-        if (filter === 'all') {
-            button.innerText = "Filter good dogs: OFF"
-        } else {
+        if (filter) {
             button.innerText = "Filter good dogs: ON"
+        } else {
+            button.innerText = "Filter good dogs: OFF"
         }
     }
 
