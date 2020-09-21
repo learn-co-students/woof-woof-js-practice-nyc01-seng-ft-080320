@@ -2,6 +2,8 @@ const PUPS_BASE_URL = "http://localhost:3000/pups"
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    let filter = 'all'
+
     const getDogs = () => {
         fetch(PUPS_BASE_URL)
         .then(response => response.json())
@@ -9,7 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const renderPups = pups => {
-        pups.map(renderPup)
+        const dogBar = document.querySelector("#dog-bar")
+        dogBar.innerHTML = ""
+        if (filter === 'all') {
+            pups.map(renderPup)
+        } else {
+            pups.filter(pup => pup.isGoodDog === true).map(renderPup)
+        }
     }
 
     const renderPup = pup => {
@@ -27,8 +35,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 getDog(e.target.dataset.pup_id);
             } else if (e.target.matches(".dog-button")) {
                 toggleGoodBad(e.target.dataset.id);
+            } else if (e.target.matches("#good-dog-filter")) {
+                changeFilter();
+                getDogs();
             }
         })
+    }
+
+    const changeFilter = () => {
+        filter = (filter === 'all') ? 'good' : 'all'
+        const button = document.querySelector("#good-dog-filter")
+        if (filter === 'all') {
+            button.innerText = "Filter good dogs: OFF"
+        } else {
+            button.innerText = "Filter good dogs: ON"
+        }
     }
 
     const getDog = (id) => {
