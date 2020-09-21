@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', e => {
 
     const pupUrl = "http://localhost:3000/pups"
 
-    let dogList = []
+    // let dogList = []
 
     const fetchDogs = url => {
         fetch(url)
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', e => {
     const renderDogs = dogArray => {
         for(dog of dogArray) {
             createDogSpan(dog);
-            dogList.push(dog);
+            // dogList.push(dog);
         }
     }
 
@@ -84,34 +84,49 @@ document.addEventListener('DOMContentLoaded', e => {
         });
     }
 
-
-    // const checkIsGoodDog = (dogArray) => {
-
+    // const dogObject = (dogArray, id) => {
+    //     let idMatch = dogArray.filter ( dog => {
+    //         return dog.id === id;
+    //     });
+    //     return idMatch;
+    // }
         
     //     console.log(goodDogs)
     // }
 
+    const fetchDogObject = (objectId) => {
+
+        fetch(pupUrl)
+        .then(response => response.json())
+        .then(data => { 
+            
+            const dogObj = data[parseInt(objectId) - 1]
+            createDogInfoDiv(dogObj);
+            
+            }
+        )
+    }
+
     const clickHandler = () => {
         document.addEventListener("click", e => {
             if (e.target.matches('.dog')) {
-                // const 
                 removeDog();
-                const dogObj = dogList[parseInt(e.target.id) - 1];
-                createDogInfoDiv(dogObj)
+                fetchDogObject(e.target.id);
+                // const dogObj = dogList[parseInt(e.target.id) - 1];
+                // const dogObj = fetchDogObject(e.target);
+                //createDogInfoDiv(dogObj)
             } else if (e.target.matches("#good-dog-button")) {
                 
                 if (e.target.textContent === "Good Dog!") {
                     e.target.textContent = "Bad Dog!"
+                    // updateDogList(e.target, true);
                     // const dogObj = dogList[parseInt(e.target.parentNode.id) - 1];
-                    const dogId = e.target.parentNode.dataset.dogId;
-                    const dogOnDogList = dogList[parseInt(dogId) - 1];
                     // dogOnDogList.isGoodDog = "false"
                     // console.log(dogOnDogList)
 
                 } else if (e.target.textContent === "Bad Dog!") {
                     e.target.textContent = "Good Dog!"
-                    const dogId = e.target.parentNode.dataset.dogId
-                    const dogOnDogList = dogList[parseInt(dogId) - 1];
+                    // updateDogList(e.target, false);
                     // dogOnDogList.isGoodDog = "true"
                     // console.log(dogOnDogList)
                 }
@@ -133,6 +148,14 @@ document.addEventListener('DOMContentLoaded', e => {
 
         })
     }
+
+        // const updateDogList = (dog, boolean) => {
+        //     const dogId = dog.parentNode.dataset.dogId
+        //     const dogOnDogList = dogList[parseInt(dogId) - 1];
+        //     const isGood = dogOnDogList.isGoodDog;
+        //     dogOnDogList.isGoodDog = boolean;
+        //     console.log(isGood);
+        // }
 
         const isGoodBoyBoolean = (dog) => {
             if (dog === "Good Dog!") {
